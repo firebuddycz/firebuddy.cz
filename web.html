@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/webp" href="/images/logo.webp" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FireBuddy | Expert v požární ochraně</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+     #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1; 
+      object-fit: cover;}
+
+    body {font-family: 'Inter', sans-serif;}
+      .dark body {
+        background-color: #000;
+      }
+      .dark body {
+        background-color: #000;
+      }
+      .text-flame {
+        color: #dc2626; /* red-600 */
+      }
+      .dark .text-flame, section#home .text-flame {
+        color: #fff;
+        text-shadow: 0 0 6px #ff8c00, 0 0 12px #ff4500;
+      }
+      .flame-border:hover {
+        border-color: #ef4444; /* red-500 */
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+      }
+      .dark .flame-border:hover {
+        border-color: #ff8c00;
+        box-shadow: 0 0 8px rgba(255, 140, 0, 0.7), 0 0 16px rgba(255, 69, 0, 0.6), 0 0 24px rgba(255, 0, 0, 0.5);
+      }
+      .hidden {
+        display: none;
+      }
+      .fade-in-section {
+        opacity: 1;
+        transform: translateY(2.5rem); /* translate-y-10 */
+        transition: opacity 1s ease-out, transform 1s ease-out;
+      }
+      .fade-in-section.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+       header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background-color: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+                  0 2px 4px -2px rgb(0 0 0 / 0.1);
+      transition: transform 0.3s ease;
+      padding: 1rem 2rem;
+    }
+
+    header.hide {
+      transform: translateY(-100%);
+    }
+      .dark header {
+         background-color: rgba(0, 0, 0, 0.7);
+         --tw-shadow-color: #7f1d1d;
+         --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+      }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+<video autoplay muted loop playsinline id="bg-video">
+    <source src="/images/background.mp4" type="video/mp4">
+  </video>
+    <div id="root">
+        <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#/" class="flex items-center space-x-4">
+                    <img src="/images/logo.webp" alt="FireBuddy Logo" class="w-auto" style="height:120px;" />
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">FireBuddy</span>
+                </a>
+
+                <nav class="hidden md:flex items-center space-x-8 text-lg">
+                    <a href="#/" class="font-medium text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300">Domů</a>
+                    <a href="#/about" class="font-medium text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300">O mě</a>
+                    <a href="#/services" class="font-medium text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300">Služby</a>
+                    <a href="#/contact" class="font-medium text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300">Kontakt</a>
+                </nav>
+                 <div class="hidden md:flex items-center space-x-4">
+                    <a href="#/contact" class="px-5 py-2 rounded-md font-semibold bg-red-600 text-white hover:bg-red-700 transition-all duration-300">Získejte nabídku</a>
+                    <button id="theme-switcher-desktop" aria-label="Toggle theme" class="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 focus:ring-offset-gray-100 dark:focus:ring-offset-black transition-colors duration-300">
+                      <svg id="moon-icon-desktop" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                      <svg id="sun-icon-desktop" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    </button>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="theme-switcher-mobile" aria-label="Toggle theme" class="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-300">
+                      <svg id="moon-icon-mobile" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                      <svg id="sun-icon-mobile" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    </button>
+                    <button id="menu-toggle" class="ml-4 p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle menu" aria-expanded="false">
+                      <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                      <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="md:hidden hidden">
+                <nav class="flex flex-col items-center space-y-4 px-6 pb-6 pt-2">
+                    <a href="#/" class="w-full text-center py-2 font-medium text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300">Domů</a>
+                    <a href="#/about" class="w-full text-center py-2 font-medium text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300">O mě</a>
+                    <a href="#/services" class="w-full text-center py-2 font-medium text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300">Služby</a>
+                    <a href="#/contact" class="w-full text-center py-2 font-medium text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-500 transition-colors duration-300">Kontakt</a>
+                    <a href="#/contact" class="w-full text-center px-5 py-3 rounded-md font-semibold bg-red-600 text-white hover:bg-red-700 transition-all duration-300">Získejte nabídku</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="text-gray-800 dark:text-gray-200">
+            <!-- Content for each page route -->
+            <div id="page-home" class="page-content">
+                <section id="home" class="relative h-screen flex items-center justify-center text-center opacity-0 transition-opacity duration-1000 ease-in">
+                    <div class="relative z-10 px-6">
+                        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 text-flame">Váš důvěryhodný partner v oblasti požární ochrany</h1>
+                        <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-200 drop-shadow-md">Poskytování komplexních řešení od odborně způsobilé osoby v požární ochraně.</p>
+                        <a href="#/services" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 ease-in-out transform hover:scale-105">Prozkoumejte moje služby</a>
+                    </div>
+                </section>
+                <div class="fade-in-section"><section id="about-home" class="py-20 bg-white/60 dark:bg-black/60 backdrop-blur-md">
+                    <div class="container mx-auto px-6">
+                        <div class="flex flex-col md:flex-row items-center gap-12">
+                            <div class="md:w-1/2 lg:w-2/5"><img src="/images/me.webp" alt="Professional Fire Safety Consultant" class="rounded-lg shadow-2xl w-full"/></div>
+                            <div class="md:w-1/2 lg:w-3/5">
+                                <h2 class="text-3xl font-bold mb-4 text-flame">Seznamte se s vaším odborníkem</h2>
+                                <p class="text-red-600 dark:text-red-500 font-semibold text-lg mb-6">Odborně způsobilá osoba v oblasti požární ochrany</p>
+                                <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">Požární ochraně se věnuji už řadu let. Přináším bohaté znalosti a závazek k dokonalosti. Bezpečnostní předpisy nejsou pro každého zábava, ale já je beru jako nástroj k ochraně lidí, majetku i života. Rád je překládám do srozumitelné a praktické podoby, která dává smysl v reálném světě. </p>
+                                <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">Věřím, že prevence má smysl – nejen kvůli zákonu, ale hlavně kvůli odpovědnosti. Každá firma, škola nebo dílna má svá specifika, a proto vždy hledám individuální přístup, který bude fungovat právě vám. Mým cílem je, abyste se mohli věnovat své práci a zároveň věděli, že máte vše po stránce požární ochrany v pořádku.</p>
+                                <a href="#/contact" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Kontaktujte mě</a>
+                            </div>
+                        </div>
+                    </div>
+                </section></div>
+                <div class="fade-in-section"><section id="services-home" class="py-20 bg-white/60 dark:bg-black/60 backdrop-blur-md">
+                    <div class="container mx-auto px-6 text-center">
+                        <h2 class="text-3xl font-bold mb-4 text-flame">Mé služby</h2>
+                        <p class="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 mb-12">Nabízím kompletní škálu služeb v oblasti požární ochrany, které pokryjí všechny vaše potřeby.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <div class="group bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out text-left border border-gray-200 dark:border-gray-700 flame-border"><div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 012-2h4M5 8h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 001.414 0l2.414-2.414a1 1 0 01.707-.293H17"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Poradenství</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Nejste si jistí, co všechno musíte v oblasti požární ochrany splňovat? Nebo už něco zavedeno máte, ale chcete mít jistotu, že je vše v pořádku? Nabízím odborné poradenství v požární ochraně přesně podle vašich potřeb.</p></div>
+                            <div class="group bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out text-left border border-gray-200 dark:border-gray-700 flame-border"><div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Dokumentace poární ochrany</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Každý, kdo provozuje firmu, obchod, dílnu, kancelář nebo třeba bytový dům, má ze zákona určité povinnosti v oblasti požární ochrany. Jednou z těch nejdůležitějších je mít v pořádku dokumentaci požární ochrany.</p></div>
+                            <div class="group bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out text-left border border-gray-200 dark:border-gray-700 flame-border"><div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-9.998 12.078 12.078 0 01.665-6.479L12 14z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-9.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Školení</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Každý zaměstnavatel má povinnost zajistit, aby jeho zaměstnanci věděli, jak předcházet požáru a co dělat v případě nebezpečí. Nabízíme srozumitelná a praktická školení požární ochrany pro vedoucí i řadové zaměstnance.</p></div>
+                            <div class="group bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out text-left border border-gray-200 dark:border-gray-700 flame-border"><div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4m5 16l4-4m-6-4a4 4 0 11-8 0 4 4 0 018 0z"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Kontroly a revize</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Požární ochrana není jen o papírech – důležité je, aby vše opravdu fungovalo. Provádím kontroly a revize požárně bezpečnostních zařízení i pravidelnou kontrolu stavu požární ochrany na pracovištích a v objektech. Zkontroluji, jestli máte vše v pořádku, a pokud něco chybí nebo je potřeba opravit, dostanete ode mě jasné a srozumitelné doporučení.</p></div>
+                        </div>
+                    </div>
+                </section></div>
+                <div class="fade-in-section"><section id="why-choose-us-home" class="py-20 bg-white/60 dark:bg-black/60 backdrop-blur-md">
+                    <div class="container mx-auto px-6">
+                        <div class="text-center mb-12"><h2 class="text-3xl font-bold mb-4 text-flame">Proč vybrat FireBuddy?</h2><p class="max-w-3xl mx-auto text-gray-700 dark:text-gray-300">S semnou máte bezpečí pod kontrolou – já myslím na požární ochranu, vy na klid.</p></div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                            <div class="group flex flex-col items-center md:items-start text-center md:text-left"><div class="bg-red-100 dark:bg-red-900/50 rounded-full p-4 mb-4 transition-colors duration-300 group-hover:bg-red-200 dark:group-hover:bg-red-800/60"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16a4 4 0 100-8 4 4 0 000 8z"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Odbornost</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Využijte znalostí odborně způsobilé osoby, která se věnuje nejvyšším standardům požární bezpečnosti.</p></div>
+                            <div class="group flex flex-col items-center md:items-start text-center md:text-left"><div class="bg-red-100 dark:bg-red-900/50 rounded-full p-4 mb-4 transition-colors duration-300 group-hover:bg-red-200 dark:group-hover:bg-red-800/60"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 20.417l5.611 1.002c.563.101 1.144-.043 1.588-.418l.42-.352a2 2 0 012.756 0l.42.352c.444.375 1.025.519 1.588.418l5.611-1.002c.813-1.482 1.115-3.23 1-5.024A11.955 11.955 0 0118.382 5.984z"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Zaručená auktuálnost</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Udržujte si náskok před předpisy. Zajišťuji, aby všechny moje služby a dokumentace byly plně v souladu s aktuálními předpisy.</p></div>
+                            <div class="group flex flex-col items-center md:items-start text-center md:text-left"><div class="bg-red-100 dark:bg-red-900/50 rounded-full p-4 mb-4 transition-colors duration-300 group-hover:bg-red-200 dark:group-hover:bg-red-800/60"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Klid v duši</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Můžete být v klidu s vědomím, že váš majetek je chráněn robustními a profesionálně implementovanými protipožárními opatřeními.</p></div>
+                        </div>
+                    </div>
+                </section></div>
+                <div class="fade-in-section"><section id="contact-home" class="py-20 bg-white/60 dark:bg-black/60 backdrop-blur-md">
+                    <div class="container mx-auto px-6">
+                        <div class="text-center mb-12"><h2 class="text-3xl font-bold mb-4 text-flame">Kontaktujte mě</h2><p class="max-w-2xl mx-auto text-gray-700 dark:text-gray-300">Máte dotaz nebo potřebujete cenovou nabídku? Vyplňte níže uvedený formulář nebo mě kontaktujte přímo.</p></div>
+                        <div class="flex flex-col lg:flex-row gap-12">
+                            <div class="lg:w-1/2"><div class="bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700"><form class="space-y-6 contact-form"><input type="hidden" name="form-id" value="contact-home-form"><div><label for="name-home" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Jméno</label><input type="text" name="name" id="name-home" required class="mt-1 block w-full bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-gray-900 dark:text-white px-4 py-2"/></div><div><label for="email-home" class="block text-sm font-medium text-gray-600 dark:text-gray-300">E-mail</label><input type="email" name="email" id="email-home" required class="mt-1 block w-full bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-gray-900 dark:text-white px-4 py-2"/></div><div><label for="message-home" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Zpráva</label><textarea name="message" id="message-home" rows="5" required class="mt-1 block w-full bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-gray-900 dark:text-white px-4 py-2"></textarea></div><div><button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Odeslat</button></div></form></div></div>
+                            <div class="lg:w-1/2 flex flex-col justify-center space-y-8"><div class="flex items-center space-x-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg><div><h4 class="text-lg font-semibold text-gray-900 dark:text-white">Telefon</h4><a href="tel:+420736483841" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">+420 736 483 841</a></div></div><div class="flex items-center space-x-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg><div><h4 class="text-lg font-semibold text-gray-900 dark:text-white">E-mail</h4><a href="mailto:firebuddy.cz@gmail.com" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">firebuddy.cz@gmail.com</a></div></div><div class="flex items-center space-x-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><div><h4 class="text-lg font-semibold text-gray-900 dark:text-white">Adresa</h4><p class="text-gray-600 dark:text-gray-300">Působnocst po celé ČR</p></div></div></div>
+                        </div>
+                    </div>
+                </section></div>
+            </div>
+
+            <div id="page-about" class="page-content hidden">
+                <div class="pt-20 fade-in-section"><section id="about-page" class="py-20 bg-white/60 dark:bg-black/60 backdrop-blur-md">
+                     <div class="container mx-auto px-6">
+                        <div class="flex flex-col md:flex-row items-center gap-12">
+                            <div class="md:w-1/2 lg:w-2/5"><img src="/images/me.webp" alt="Professional Fire Safety Consultant" class="rounded-lg shadow-2xl w-full"/></div>
+                            <div class="md:w-1/2 lg:w-3/5">
+                                <h2 class="text-3xl font-bold mb-4 text-flame">Seznamte se s vaším odborníkem</h2>
+                                <p class="text-red-600 dark:text-red-500 font-semibold text-lg mb-6">Odborně způsobilá osoba v oblasti požární ochrany</p>
+                                <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">Požární ochraně se věnuji už řadu let. Přináším bohaté znalosti a závazek k dokonalosti. Bezpečnostní předpisy nejsou pro každého zábava, ale já je beru jako nástroj k ochraně lidí, majetku i života. Rád je překládám do srozumitelné a praktické podoby, která dává smysl v reálném světě.</p>
+                                <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">Věřím, že prevence má smysl – nejen kvůli zákonu, ale hlavně kvůli odpovědnosti. Každá firma, škola nebo dílna má svá specifika, a proto vždy hledám individuální přístup, který bude fungovat právě vám. Mým cílem je, abyste se mohli věnovat své práci a zároveň věděli, že máte vše po stránce požární ochrany v pořádku.</p>
+                                <a href="#/contact" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Kontaktujte mě</a>
+                            </div>
+                        </div>
+                    </div>
+                </section></div>
+            </div>
+            
+            <div id="page-services" class="page-content hidden">
+                <div class="pt-20 fade-in-section"><section id="services-page" class="py-20 bg-white/60 dark:bg-black/60 backdrop-blur-md">
+                     <div class="container mx-auto px-6 text-center">
+                        <h2 class="text-3xl font-bold mb-4 text-flame">Mé služby</h2>
+                        <p class="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 mb-12">Nabízím kompletní škálu služeb v oblasti požární ochrany, které pokryjí všechny vaše potřeby.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <div class="group bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out text-left border border-gray-200 dark:border-gray-700 flame-border"><div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 012-2h4M5 8h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 001.414 0l2.414-2.414a1 1 0 01.707-.293H17"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Poradenství</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Nejste si jistí, co všechno musíte v oblasti požární ochrany splňovat? Nebo už něco zavedeno máte, ale chcete mít jistotu, že je vše v pořádku? Nabízím odborné poradenství v požární ochraně přesně podle vašich potřeb.</p></div>
+                            <div class="group bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out text-left border border-gray-200 dark:border-gray-700 flame-border"><div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Dokumentace poární ochrany</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Každý, kdo provozuje firmu, obchod, dílnu, kancelář nebo třeba bytový dům, má ze zákona určité povinnosti v oblasti požární ochrany. Jednou z těch nejdůležitějších je mít v pořádku dokumentaci požární ochrany.</p></div>
+                            <div class="group bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out text-left border border-gray-200 dark:border-gray-700 flame-border"><div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-9.998 12.078 12.078 0 01.665-6.479L12 14z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-9.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Školení</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Každý zaměstnavatel má povinnost zajistit, aby jeho zaměstnanci věděli, jak předcházet požáru a co dělat v případě nebezpečí. Nabízíme srozumitelná a praktická školení požární ochrany pro vedoucí i řadové zaměstnance.</p></div>
+                            <div class="group bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300 ease-in-out text-left border border-gray-200 dark:border-gray-700 flame-border"><div class="mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-600 transition-transform duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4m5 16l4-4m-6-4a4 4 0 11-8 0 4 4 0 018 0z"></path></svg></div><h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Kontroly a revize</h3><p class="text-gray-600 dark:text-gray-300 leading-relaxed">Požární ochrana není jen o papírech – důležité je, aby vše opravdu fungovalo. Provádím kontroly a revize požárně bezpečnostních zařízení i pravidelnou kontrolu stavu požární ochrany na pracovištích a v objektech. Zkontroluji, jestli máte vše v pořádku, a pokud něco chybí nebo je potřeba opravit, dostanete ode mě jasné a srozumitelné doporučení.</p></div>
+                        </div>
+                    </div>
+                </section></div>
+            </div>
+
+            <div id="page-contact" class="page-content hidden">
+                 <div class="pt-20 fade-in-section"><section id="contact-page" class="py-20 bg-white/60 dark:bg-black/60 backdrop-blur-md">
+                    <div class="container mx-auto px-6">
+                        <div class="text-center mb-12"><h2 class="text-3xl font-bold mb-4 text-flame">Kontaktujte mě</h2><p class="max-w-2xl mx-auto text-gray-700 dark:text-gray-300">Máte dotaz nebo potřebujete cenovou nabídku? Vyplňte níže uvedený formulář nebo mě kontaktujte přímo.</p></div>
+                        <div class="flex flex-col lg:flex-row gap-12">
+                            <div class="lg:w-1/2"><div class="bg-white dark:bg-gray-900/75 p-8 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700"><form class="space-y-6 contact-form"><input type="hidden" name="form-id" value="contact-page-form"><div><label for="name-page" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Jméno</label><input type="text" name="name" id="name-page" required class="mt-1 block w-full bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-gray-900 dark:text-white px-4 py-2"/></div><div><label for="email-page" class="block text-sm font-medium text-gray-600 dark:text-gray-300">E-mail</label><input type="email" name="email" id="email-page" required class="mt-1 block w-full bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-gray-900 dark:text-white px-4 py-2"/></div><div><label for="message-page" class="block text-sm font-medium text-gray-600 dark:text-gray-300">Zpráva</label><textarea name="message" id="message-page" rows="5" required class="mt-1 block w-full bg-gray-100 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 text-gray-900 dark:text-white px-4 py-2"></textarea></div><div><button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Odeslat</button></div></form></div></div>
+                            <div class="lg:w-1/2 flex flex-col justify-center space-y-8"><div class="flex items-center space-x-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg><div><h4 class="text-lg font-semibold text-gray-900 dark:text-white">Telefon</h4><a href="tel:+420736483841" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">+420 736 483 841</a></div></div><div class="flex items-center space-x-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg><div><h4 class="text-lg font-semibold text-gray-900 dark:text-white">E-mail</h4><a href="mailto:firebuddy.cz@gmail.com" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition">firebuddy.cz@gmail.com</a></div></div><div class="flex items-center space-x-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><div><h4 class="text-lg font-semibold text-gray-900 dark:text-white">Adresa</h4><p class="text-gray-600 dark:text-gray-300">Působnost po celé ČR</p></div></div></div>
+                        </div>
+                    </div>
+                </section></div>
+            </div>
+
+            <div id="page-disputes" class="page-content hidden">
+                <div class="pt-20 fade-in-section">
+                    <section id="disputes-page" class="py-20 bg-white/60 dark:bg-black/60 backdrop-blur-md">
+                        <div class="container mx-auto px-6 max-w-4xl">
+                            <h2 class="text-3xl font-bold mb-6 text-flame">Mimosoudní řešení spotřebitelských sporů</h2>
+                            <div class="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
+                                <h1>Mimosoudní řešení spotřebitelských sporů (ADR)</h1>
+                                    <p>Dle § 14 odst. (1) zákona č. 634/1992 Sb., o ochraně spotřebitele (dále jen „ZOS“), „prodávající informuje spotřebitele jasným, srozumitelným a snadno dostupným způsobem o subjektu mimosoudního řešení spotřebitelských sporů, který je pro daný typ nabízeného, prodávaného, poskytovaného nebo zprostředkovaného výrobku nebo služby věcně příslušný. Informace musí zahrnovat též internetovou adresu tohoto subjektu. Jestliže prodávající provozuje internetové stránky, uvede tyto informace i na těchto internetových stránkách. Pokud smlouva uzavřená mezi prodávajícím a spotřebitelem odkazuje na obchodní podmínky, uvede informace podle věty první a druhé rovněž v těchto obchodních podmínkách.“</p>
+                                    <p>V případě, že dojde mezi námi a spotřebitelem ke vzniku spotřebitelského sporu z kupní smlouvy nebo ze smlouvy o poskytování služeb, který se nepodaří vyřešit vzájemnou dohodou, může spotřebitel podat návrh na mimosoudní řešení takového sporu určenému subjektu mimosoudního řešení spotřebitelských sporů, kterým je:</p>
+                                    <address>
+                                        <strong>Česká obchodní inspekce</strong><br>
+                                        Ústřední inspektorát – oddělení ADR<br>
+                                        Gorazdova 1969/24<br>
+                                        120 00 Praha 2<br>
+                                        E-mail: <a href="mailto:adr@coi.cz">adr@coi.cz</a><br>
+                                        Web: <a href="https://adr.coi.cz" target="_blank">adr.coi.cz</a>
+                                    </address>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div id="page-privacy" class="page-content hidden">
+                <div class="pt-20 fade-in-section">
+                    <section id="privacy-page" class="py-20 bg-white/60 dark:bg-black/60 backdrop-blur-md">
+                        <div class="container mx-auto px-6 max-w-4xl text-gray-700 dark:text-gray-300 leading-relaxed">
+                            <h2 class="text-3xl font-bold mb-6 text-flame">Zásady zpracování osobních údajů</h2>
+                            <h1>Zásady zpracování osobních údajů</h1>
+                            <p>V souladu s nařízením Evropského parlamentu a Rady (EU) 2016/679 (dále jen „GDPR“) vás informuji o způsobu zpracování osobních údajů prostřednictvím tohoto webu.</p>
+                            <h2>Správce osobních údajů</h2>
+                            <p>Adam Klimek<br>
+                            Odborně způsobilá osoba v požární ochraně (identifikační číslo: Z-OZO-173/2024)<br> 
+                            E-mail: firebuddy.kontakt@gmail.com</p>
+                            <h2>Jaké údaje zpracovávám a proč</h2>
+                            <p>V rámci kontaktního formuláře zpracovávám tyto osobní údaje:</p>
+                                <ul>
+                                <li>Jméno a příjmení – za účelem identifikace odesílatele</li>
+                                <li>E-mail – za účelem zpětného kontaktování</li>
+                                <li>Obsah zprávy – pro vyřízení vašeho dotazu</li>
+                                </ul>
+                            <h2>Právní základ zpracování</h2>
+                            <p>Údaje jsou zpracovávány na základě vašeho souhlasu (čl. 6 odst. 1 písm. a) GDPR), který udělujete odesláním formuláře.</p>
+                            <h2>Doba uchovávání údajů</h2>
+                            <p>Údaje budou uchovávány pouze po dobu nezbytně nutnou k vyřízení vašeho dotazu, nejdéle však 6 měsíců.</p>
+                            <h2>Kdo má k údajům přístup</h2>
+                            <p>K údajům má přístup pouze správce. Údaje nejsou předávány žádným třetím stranám ani mimo EU.</p>
+                            <h2>Vaše práva</h2>
+                            <p>Máte právo:</p>
+                                <ul>
+                                <li>na přístup ke svým údajům,</li>
+                                <li>na opravu nepřesných údajů,</li>
+                                <li>na výmaz údajů („právo být zapomenut“),</li>
+                                <li>na omezení zpracování,</li>
+                                <li>na přenositelnost údajů,</li>
+                                <li>na podání námitky proti zpracování,</li>
+                                <li>na podání stížnosti u Úřadu pro ochranu osobních údajů (<a href="https://www.uoou.cz" target="_blank">www.uoou.cz</a>).</li>
+                                </ul>
+                            <h2>Kontakt</h2>
+                            <p>Pokud máte jakékoli otázky ohledně zpracování vašich údajů, kontaktujte mě na výše uvedeném e-mailu.</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+        </main>
+        
+        <footer class="bg-white/75 dark:bg-black/75 text-gray-600 dark:text-gray-400 py-8">
+            <div class="container mx-auto px-6 text-center">
+                <p>&copy; 2024 FireBuddy. All Rights Reserved.</p>
+                <p class="text-sm mt-4 flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
+                    <a href="#/disputes" class="hover:text-gray-900 dark:hover:text-white transition">Out-of-court settlement of consumer disputes</a>
+                    <span class="hidden md:inline text-gray-400 dark:text-gray-600">|</span>
+                    <a href="#/privacy" class="hover:text-gray-900 dark:hover:text-white transition">Processing of personal data</a>
+                    <span class="hidden md:inline text-gray-400 dark:text-gray-600">|</span>
+                    <a href="#" class="hover:text-gray-900 dark:hover:text-white transition">Back to Top</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Theme Switcher ---
+        const themeSwitchers = [document.getElementById('theme-switcher-desktop'), document.getElementById('theme-switcher-mobile')];
+        const sunIcons = [document.getElementById('sun-icon-desktop'), document.getElementById('sun-icon-mobile')];
+        const moonIcons = [document.getElementById('moon-icon-desktop'), document.getElementById('moon-icon-mobile')];
+        const htmlEl = document.documentElement;
+
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                htmlEl.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                sunIcons.forEach(icon => icon.style.display = 'block');
+                moonIcons.forEach(icon => icon.style.display = 'none');
+            } else {
+                htmlEl.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                sunIcons.forEach(icon => icon.style.display = 'none');
+                moonIcons.forEach(icon => icon.style.display = 'block');
+            }
+        };
+
+        const toggleTheme = () => {
+            const newTheme = htmlEl.classList.contains('dark') ? 'light' : 'dark';
+            applyTheme(newTheme);
+        };
+
+        themeSwitchers.forEach(switcher => switcher.addEventListener('click', toggleTheme));
+        
+        // --- Header Scroll & Mobile Menu ---
+        const header = document.querySelector('header');
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        menuToggle.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            menuToggle.setAttribute('aria-expanded', String(!isHidden));
+            header.classList.toggle('menu-open', !isHidden);
+            menuIcon.classList.toggle('hidden', !isHidden);
+            closeIcon.classList.toggle('hidden', isHidden);
+        });
+        
+        const closeMenu = () => {
+             mobileMenu.classList.add('hidden');
+             menuToggle.setAttribute('aria-expanded', 'false');
+             header.classList.remove('menu-open');
+             menuIcon.classList.remove('hidden');
+             closeIcon.classList.add('hidden');
+        };
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        // --- Router ---
+        const pages = document.querySelectorAll('.page-content');
+        function router() {
+            const route = window.location.hash || '#/';
+            pages.forEach(p => p.classList.add('hidden'));
+
+            let pageId;
+            switch(route) {
+                case '#/about': pageId = 'page-about'; break;
+                case '#/services': pageId = 'page-services'; break;
+                case '#/contact': pageId = 'page-contact'; break;
+                case '#/disputes': pageId = 'page-disputes'; break;
+                case '#/privacy': pageId = 'page-privacy'; break;
+                case '#/':
+                default: pageId = 'page-home'; break;
+            }
+
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.remove('hidden');
+                // Re-arm animations for the new page content
+                activePage.querySelectorAll('.fade-in-section').forEach(section => {
+                    section.classList.remove('is-visible');
+                    observer.observe(section);
+                });
+                window.scrollTo(0, 0);
+            }
+        }
+        window.addEventListener('hashchange', router);
+        
+        // --- Fade In Section Observer ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // --- Contact Form ---
+        const handleFormSubmit = (event) => {
+            event.preventDefault();
+            const form = event.target;
+            const nameInput = form.querySelector('input[name="name"]');
+            alert(`Thank you for your message, ${nameInput.value}! We will get back to you shortly.`);
+            form.reset();
+        };
+        document.querySelectorAll('.contact-form').forEach(form => {
+            form.addEventListener('submit', handleFormSubmit);
+        });
+
+        // --- Initial Load ---
+        const savedTheme = localStorage.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(savedTheme);
+        router();
+        setTimeout(() => {
+            document.getElementById('home').style.opacity = '1';
+        }, 100);
+        document.querySelector('footer a[href="#"]').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        const currentYear = new Date().getFullYear();
+        document.querySelector('footer p').innerHTML = `&copy; ${currentYear} FireBuddy. All Rights Reserved.`;
+
+    });
+    </script>
+    <script>
+    let lastScroll = 0;
+    const header = document.querySelector("header");
+
+    window.addEventListener("scroll", () => {
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll > lastScroll) {
+        // scroll dolů → schovat
+        header.classList.add("hide");
+      } else {
+        // scroll nahoru → ukázat
+        header.classList.remove("hide");
+      }
+
+      lastScroll = currentScroll <= 0 ? 0 : currentScroll; // reset na 0
+    });
+  </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
